@@ -11,7 +11,7 @@
 #define NVM 1200
 using namespace std;
 
-int C[NVM][NVM], CC[NVM][NVM], F[NVM][NVM], n, m, fmax, nt, pt[100], nm, lm[100];
+int C[NVM][NVM], CC[NVM][NVM], F[NVM][NVM], n, m, fmax, nt, pt[100], nm, lm[100],Table[100];
 bool V[NVM];  
 
 void Imprime(){
@@ -57,12 +57,12 @@ void CriaRede(){
 		CC[1][i+1] = pt[i];
 	}
 	for (i=2;i<=nt+1;i++){			//times
-		for(j=nt+2;j<=nt+m+1;j++){
+		for(j=nt+2;j<nt+nm+2;j++){
 			CC[i][j]=1;
 	        }
 	}
-	for (i=nt+2;i<=nt+nm+1;i++){			//mesas
-	    CC[i][nt+nm+2]=lm[i-nt-2];
+	for (i=nt+2;i<=nt+nm+2;i++){			//mesas
+	    CC[i-1][nt+nm+2]=lm[i-nt-2];
 	}
 	ImprimeC();
     /*Dicas para a criação da rede
@@ -77,6 +77,12 @@ void CriaRede(){
 }
 bool TemSol(){
     int i, tp;
+    tp=0;
+    for(i=1;i<=nt;i++)tp+=pt[i];
+    if(fmax >= nt) {
+        return true;
+    }
+    else return false;
     /* Esta função deve verificar se o problema foi resolvido, isto é,
        se todas as pessoas de todos os times foram alocadas às mesas.
     */
@@ -85,6 +91,26 @@ bool TemSol(){
 }
 void MostraResultado(){
     int i, j;
+    for(i=2;i<=nt+1;i++){
+        for(j=nt+2;j<=nt+nm+1;j++){
+            if(F[i][j]==1) Table[j]+=1;
+        }
+    }
+    for(j=nt+2;j<=nt+nm+1;j++){
+        cout<<"Mesa "<<j-nt-1<<": ";
+        if(Table[j]){
+            cout<<" na mesa "<<j-nt-1<< " sentaram-se "<< Table[j]<<" pessoa(s), sendo: "; 
+        }
+        for(i=2;i<=nt+1;i++){
+            if(F[i][j]==1){
+                cout<<"uma do time "<<i-1<<"; ";
+            }
+        }
+        cout<<endl;
+    }
+            
+
+    
     /* Dica: imprimir para cada mesa os times cujas arestas de fluxo (vetor F)
 	   são positivas para essa mesa.
 	   A saida deve ser assim:
