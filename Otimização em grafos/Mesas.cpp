@@ -59,10 +59,12 @@ void CriaRede(){
 	for (i=2;i<=nt+1;i++){			//times
 		for(j=nt+2;j<=nt+m+1;j++){
 			CC[i][j]=1;
+	        }
 	}
-	for (i=1;i<=nm;i++){			//mesas
-		
+	for (i=nt+2;i<=nt+nm+1;i++){			//mesas
+	    CC[i][nt+nm+2]=lm[i-nt-2];
 	}
+	ImprimeC();
     /*Dicas para a criação da rede
         1. A fonte é o vértice 1
         2. Os times são os vértices 2 a nt+1
@@ -118,3 +120,4 @@ int main() {
        cin.get();
     }    
 }
+
